@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理画面 — TSアセットマネジメント</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --indigo-deep: #0f2740;
+    --indigo-mid: #1a3a5c;
+    --indigo-soft: #4a6a8a;
+    --indigo-muted: #7a9abb;
+    --indigo-pale: #d6e0eb;
+    --indigo-bg: #f5f8fc;
+    --white: #ffffff;
+    --font-serif: 'Noto Serif JP', 'Yu Mincho', serif;
+    --font-sans: -apple-system, 'Helvetica Neue', sans-serif;
+    --danger: #c0392b;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--indigo-bg);
+    color: var(--indigo-deep);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--indigo-mid);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  header h1 {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: #fff;
+    font-family: var(--font-sans);
+  }
+
+  header span {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--indigo-pale);
+    border-radius: 8px;
+    padding: 1.75rem;
+  }
+
+  .card-title {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--indigo-mid);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 0.5px solid var(--indigo-pale);
+  }
+
+  .field { margin-bottom: 1rem; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    color: var(--indigo-soft);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  input[type=text], textarea {
+    width: 100%;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    color: var(--indigo-deep);
+    border: 1px solid var(--indigo-pale);
+    border-radius: 5px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--white);
+  }
+
+  input[type=text]:focus, textarea:focus {
+    border-color: var(--indigo-mid);
+  }
+
+  textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+
+  .btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 0.25rem;
+  }
+
+  .btn {
+    font-size: 12px;
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+    border-radius: 5px;
+    padding: 9px 22px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--indigo-mid);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: var(--indigo-deep); }
+  .btn-primary:disabled { opacity: 0.5; cursor: default; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--indigo-soft);
+    border: 1px solid var(--indigo-pale);
+  }
+
+  .btn-ghost:hover { border-color: var(--indigo-mid); color: var(--indigo-mid); }
+
+  #msg {
+    font-size: 12px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    display: none;
+    margin-top: 0.75rem;
+  }
+
+  #msg.success {
+    background: #eaf3f0;
+    color: #1a6a4a;
+    border: 1px solid #b0d9c8;
+  }
+
+  #msg.error {
+    background: #fdf0ee;
+    color: var(--danger);
+    border: 1px solid #f0c0b8;
+  }
+
+  /* カード一覧 */
+  #card-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--indigo-pale);
+    border-radius: 6px;
+    background: var(--white);
+  }
+
+  .list-num {
+    font-size: 10px;
+    color: var(--indigo-muted);
+    letter-spacing: 0.1em;
+    min-width: 20px;
+  }
+
+  .list-info { flex: 1; min-width: 0; }
+
+  .list-title {
+    font-size: 13px;
+    color: var(--indigo-deep);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .list-url {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+  }
+
+  .del-btn {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .del-btn:hover { color: var(--danger); background: #fdf0ee; }
+
+  #empty-state {
+    font-size: 13px;
+    color: var(--indigo-muted);
+    text-align: center;
+    padding: 1.5rem;
+    border: 1px dashed var(--indigo-pale);
+    border-radius: 6px;
+    display: none;
+  }
+
+  .loading {
+    font-size: 12px;
+    color: var(--indigo-muted);
+    text-align: center;
+    padding: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="width:4px;height:18px;background:rgba(255,255,255,0.4);border-radius:2px;"></div>
+  <h1>TS ASSET MANAGEMENT</h1>
+  <span>管理画面</span>
+</header>
+
+<div class="container">
+
+  <!-- 追加フォーム -->
+  <div class="card">
+    <p class="card-title">サービス・商品を追加</p>
+    <div class="field">
+      <label>サービス名 *</label>
+      <input type="text" id="f-title" placeholder="例：Fundia Online">
+    </div>
+    <div class="field">
+      <label>URL *</label>
+      <input type="text" id="f-url" placeholder="https://example.com">
+    </div>
+    <div class="field">
+      <label>説明文（任意）</label>
+      <textarea id="f-desc" placeholder="サービスの簡単な説明を入力"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="clearForm()">クリア</button>
+      <button class="btn btn-primary" id="add-btn" onclick="addCard()">追加する</button>
+    </div>
+    <div id="msg"></div>
+  </div>
+
+  <!-- 登録済みカード一覧 -->
+  <div class="card">
+    <p class="card-title">登録済みサービス・商品</p>
+    <div id="card-list"><p class="loading">読み込み中...</p></div>
+    <p id="empty-state">まだ登録されていません</p>
+  </div>
+
+</div>
+
+<script>
+  // ★ Google Apps Script のデプロイURLに置き換えてください
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgZTLy6dXwPAeg23kjW76cNVqPXRZ0KfVj6Lb_EpBj1yo5BSlw1QyTEGbUdeqb0OeYiw/exec';
+
+  let cards = [];
+
+  function showMsg(text, type) {
+    const el = document.getElementById('msg');
+    el.textContent = text;
+    el.className = type;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 4000);
+  }
+
+  function clearForm() {
+    document.getElementById('f-title').value = '';
+    document.getElementById('f-url').value = '';
+    document.getElementById('f-desc').value = '';
+  }
+
+  function renderList() {
+    const list = document.getElementById('card-list');
+    const empty = document.getElementById('empty-state');
+    if (!cards.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = '';
+    cards.forEach((card, i) => {
+      const item = document.createElement('div');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <span class="list-num">${String(i+1).padStart(2,'0')}</span>
+        <div class="list-info">
+          <p class="list-title">${card.title}</p>
+          <p class="list-url">${card.url}</p>
+        </div>
+        <button class="del-btn" onclick="deleteCard(${card.id})">削除</button>
+      `;
+      list.appendChild(item);
+    });
+  }
+
+  async function loadCards() {
+    try {
+      const res = await fetch(GAS_URL);
+      cards = await res.json();
+      renderList();
+    } catch(e) {
+      document.getElementById('card-list').innerHTML = '<p class="loading">読み込みに失敗しました</p>';
+    }
+  }
+
+  async function addCard() {
+    const title = document.getElementById('f-title').value.trim();
+    const url   = document.getElementById('f-url').value.trim();
+    const desc  = document.getElementById('f-desc').value.trim();
+
+    if (!title) { showMsg('サービス名を入力してください', 'error'); return; }
+    if (!url)   { showMsg('URLを入力してください', 'error'); return; }
+    try { new URL(url); } catch(e) { showMsg('正しいURLを入力してください', 'error'); return; }
+
+    const btn = document.getElementById('add-btn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'add', title, url, description: desc })
+      });
+      const data = await res.json();
+      if (data.status === 'ok') {
+        showMsg('追加しました', 'success');
+        clearForm();
+        await loadCards();
+      } else {
+        showMsg('エラーが発生しました: ' + (data.message || ''), 'error');
+      }
+    } catch(e) {
+      showMsg('送信に失敗しました。GAS URLを確認してください。', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '追加する';
+    }
+  }
+
+  async function deleteCard(id) {
+    if (!confirm('このカードを削除しますか？')) return;
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'delete', id })
+      });
+      const data = await res.json();
+      if (data.status === 'ok') {
+        await loadCards();
+      } else {
+        alert('削除に失敗しました');
+      }
+    } catch(e) {
+      alert('削除に失敗しました。GAS URLを確認してください。');
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) addCard();
+  });
+
+  loadCards();
+</script>
+</body>
+</html>

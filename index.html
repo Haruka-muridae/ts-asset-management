@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSアセットマネジメント合同会社</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --indigo-deep: #0f2740;
+    --indigo-mid: #1a3a5c;
+    --indigo-soft: #4a6a8a;
+    --indigo-muted: #7a9abb;
+    --indigo-pale: #d6e0eb;
+    --indigo-bg: #f5f8fc;
+    --white: #ffffff;
+    --font-serif: 'Noto Serif JP', 'Yu Mincho', '游明朝', serif;
+    --font-sans: -apple-system, 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    background: var(--white);
+    color: var(--indigo-deep);
+    min-height: 100vh;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--indigo-pale);
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-bar {
+    width: 5px;
+    height: 22px;
+    background: var(--indigo-mid);
+  }
+
+  .nav-name {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--indigo-mid);
+    font-family: var(--font-sans);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    color: var(--indigo-soft);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--indigo-mid); }
+
+  header {
+    padding: 5rem 2.5rem 4rem;
+    background: var(--indigo-bg);
+    border-bottom: 1px solid var(--indigo-pale);
+  }
+
+  .header-sub {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--indigo-muted);
+    margin-bottom: 1rem;
+    font-family: var(--font-sans);
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--indigo-deep);
+    line-height: 1.5;
+  }
+
+  h1 span {
+    font-size: 18px;
+    color: var(--indigo-soft);
+    font-weight: 300;
+    margin-left: 0.5rem;
+  }
+
+  .header-rule {
+    margin-top: 1.75rem;
+    width: 48px;
+    height: 2px;
+    background: var(--indigo-mid);
+  }
+
+  section {
+    padding: 3.5rem 2.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--indigo-mid);
+    font-family: var(--font-sans);
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 0.5px;
+    background: var(--indigo-pale);
+  }
+
+  /* 事業内容グリッド */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--indigo-pale);
+    border: 1px solid var(--indigo-pale);
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 1.75rem;
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .service-card:hover { border-color: var(--indigo-mid); }
+
+  .service-num {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--indigo-muted);
+    margin-bottom: 0.75rem;
+    font-family: var(--font-sans);
+  }
+
+  .service-name {
+    font-size: 14px;
+    color: var(--indigo-deep);
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+  }
+
+  .service-en {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    letter-spacing: 0.1em;
+    font-family: var(--font-sans);
+  }
+
+  /* LPカードグリッド */
+  #lp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .lp-card {
+    background: var(--white);
+    border: 1px solid var(--indigo-pale);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .lp-card:hover {
+    border-color: var(--indigo-mid);
+    box-shadow: 0 4px 20px rgba(26,58,92,0.08);
+  }
+
+  .lp-thumb {
+    width: 100%;
+    height: 140px;
+    background: var(--indigo-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .lp-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lp-body { padding: 1rem; }
+
+  .lp-title {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--indigo-deep);
+    line-height: 1.6;
+    margin-bottom: 0.4rem;
+  }
+
+  .lp-desc {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    font-family: var(--font-sans);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .lp-link {
+    font-size: 11px;
+    color: var(--indigo-mid);
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+    border-bottom: 0.5px solid var(--indigo-mid);
+    padding-bottom: 1px;
+  }
+
+  #no-cards {
+    font-size: 13px;
+    color: var(--indigo-muted);
+    font-family: var(--font-sans);
+    text-align: center;
+    padding: 2rem;
+    border: 1px dashed var(--indigo-pale);
+    border-radius: 6px;
+    display: none;
+  }
+
+  footer {
+    padding: 1.5rem 2.5rem;
+    border-top: 1px solid var(--indigo-pale);
+    background: var(--indigo-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 11px;
+    color: var(--indigo-muted);
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+  }
+
+  footer a {
+    font-size: 11px;
+    color: var(--indigo-mid);
+    font-family: var(--font-sans);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--indigo-mid);
+    padding-bottom: 1px;
+  }
+
+  @media (max-width: 640px) {
+    .service-grid { grid-template-columns: 1fr; }
+    #lp-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-bar"></div>
+    <span class="nav-name">TS ASSET MANAGEMENT</span>
+  </div>
+  <div class="nav-links">
+    <a href="#services">事業内容</a>
+    <a href="#products">サービス・商品</a>
+    <a href="#contact">お問い合わせ</a>
+  </div>
+</nav>
+
+<header>
+  <p class="header-sub">TS Asset Management LLC</p>
+  <h1>TSアセットマネジメント<span>合同会社</span></h1>
+  <div class="header-rule"></div>
+</header>
+
+<section id="services">
+  <div class="section-header">
+    <span class="section-label">事業内容</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="service-grid">
+    <div class="service-card">
+      <p class="service-num">01</p>
+      <p class="service-name">不動産の所有、管理及び賃貸</p>
+      <p class="service-en">Real Estate</p>
+    </div>
+    <div class="service-card">
+      <p class="service-num">02</p>
+      <p class="service-name">保険数理、資産運用、会計に関するコンサルティング</p>
+      <p class="service-en">Consulting</p>
+    </div>
+    <div class="service-card">
+      <p class="service-num">03</p>
+      <p class="service-name">データ分析、プログラム開発、動画および音楽データ作成</p>
+      <p class="service-en">Technology & Media</p>
+    </div>
+    <div class="service-card">
+      <p class="service-num">04</p>
+      <p class="service-name">確率統計・数学分野における学習指導、講師の派遣、講義の開催</p>
+      <p class="service-en">Education</p>
+    </div>
+  </div>
+</section>
+
+<section id="products" style="padding-top: 0;">
+  <div class="section-header">
+    <span class="section-label">サービス・商品</span>
+    <div class="section-rule"></div>
+  </div>
+  <div id="lp-grid"></div>
+  <p id="no-cards">現在登録されているサービス・商品はありません</p>
+</section>
+
+<footer id="contact">
+  <p>© TSアセットマネジメント合同会社</p>
+  <a href="mailto:">お問い合わせ</a>
+</footer>
+
+<script>
+  // ★ Google Apps Script のデプロイURLに置き換えてください
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgZTLy6dXwPAeg23kjW76cNVqPXRZ0KfVj6Lb_EpBj1yo5BSlw1QyTEGbUdeqb0OeYiw/exec';
+
+  async function loadCards() {
+    const grid = document.getElementById('lp-grid');
+    const noCards = document.getElementById('no-cards');
+    try {
+      const res = await fetch(GAS_URL);
+      const cards = await res.json();
+      if (!cards.length) { noCards.style.display = 'block'; return; }
+      noCards.style.display = 'none';
+      grid.innerHTML = '';
+      cards.forEach(card => {
+        const el = document.createElement('a');
+        el.className = 'lp-card';
+        el.href = card.url;
+        el.target = '_blank';
+        el.rel = 'noopener noreferrer';
+        el.innerHTML = `
+          <div class="lp-thumb">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7a9abb" stroke-width="1.5">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span style="font-size:10px;color:#7a9abb;font-family:sans-serif;">${new URL(card.url).hostname.replace('www.','')}</span>
+          </div>
+          <div class="lp-body">
+            <p class="lp-title">${card.title}</p>
+            <p class="lp-desc">${card.description || ''}</p>
+            <span class="lp-link">詳細を見る</span>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    } catch(e) {
+      noCards.style.display = 'block';
+      noCards.textContent = 'サービス情報を読み込めませんでした';
+    }
+  }
+
+  loadCards();
+</script>
+</body>
+</html>
