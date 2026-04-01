@@ -135,7 +135,6 @@
     background: var(--indigo-pale);
   }
 
-  /* 事業内容グリッド */
   .service-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -175,7 +174,6 @@
     font-family: var(--font-sans);
   }
 
-  /* LPカードグリッド */
   #lp-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -207,12 +205,14 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    overflow: hidden;
   }
 
   .lp-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   .lp-body { padding: 1rem; }
@@ -370,14 +370,17 @@
         el.href = card.url;
         el.target = '_blank';
         el.rel = 'noopener noreferrer';
+
+        const thumbContent = card.imageUrl
+          ? `<img src="${card.imageUrl}" alt="${card.title}">`
+          : `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7a9abb" stroke-width="1.5">
+               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+             </svg>
+             <span style="font-size:10px;color:#7a9abb;font-family:sans-serif;">${new URL(card.url).hostname.replace('www.','')}</span>`;
+
         el.innerHTML = `
-          <div class="lp-thumb">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7a9abb" stroke-width="1.5">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-            </svg>
-            <span style="font-size:10px;color:#7a9abb;font-family:sans-serif;">${new URL(card.url).hostname.replace('www.','')}</span>
-          </div>
+          <div class="lp-thumb">${thumbContent}</div>
           <div class="lp-body">
             <p class="lp-title">${card.title}</p>
             <p class="lp-desc">${card.description || ''}</p>
