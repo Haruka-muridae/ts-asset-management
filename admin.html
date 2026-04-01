@@ -19,6 +19,7 @@
     --font-serif: 'Noto Serif JP', 'Yu Mincho', serif;
     --font-sans: -apple-system, 'Helvetica Neue', sans-serif;
     --danger: #c0392b;
+    --success: #1a6a4a;
   }
 
   body {
@@ -104,6 +105,93 @@
 
   textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
 
+  /* 画像アップロードエリア */
+  .upload-area {
+    border: 1.5px dashed var(--indigo-pale);
+    border-radius: 6px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .upload-area:hover, .upload-area.dragover {
+    border-color: var(--indigo-mid);
+    background: var(--indigo-bg);
+  }
+
+  .upload-area input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon {
+    margin: 0 auto 0.75rem;
+    width: 36px;
+    height: 36px;
+    color: var(--indigo-muted);
+  }
+
+  .upload-label {
+    font-size: 13px;
+    color: var(--indigo-soft);
+    margin-bottom: 4px;
+  }
+
+  .upload-hint {
+    font-size: 11px;
+    color: var(--indigo-muted);
+  }
+
+  /* プレビュー */
+  #preview-wrap {
+    display: none;
+    margin-top: 0.75rem;
+    position: relative;
+  }
+
+  #preview-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid var(--indigo-pale);
+    display: block;
+  }
+
+  #remove-img {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(15,39,64,0.7);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+  }
+
+  #remove-img:hover { background: var(--danger); }
+
+  /* アップロード進捗 */
+  #upload-progress {
+    display: none;
+    margin-top: 0.5rem;
+    font-size: 12px;
+    color: var(--indigo-soft);
+    text-align: center;
+    padding: 8px;
+    background: var(--indigo-bg);
+    border-radius: 4px;
+  }
+
   .btn-row {
     display: flex;
     justify-content: flex-end;
@@ -122,20 +210,10 @@
     transition: background 0.2s, opacity 0.2s;
   }
 
-  .btn-primary {
-    background: var(--indigo-mid);
-    color: #fff;
-  }
-
+  .btn-primary { background: var(--indigo-mid); color: #fff; }
   .btn-primary:hover { background: var(--indigo-deep); }
   .btn-primary:disabled { opacity: 0.5; cursor: default; }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--indigo-soft);
-    border: 1px solid var(--indigo-pale);
-  }
-
+  .btn-ghost { background: transparent; color: var(--indigo-soft); border: 1px solid var(--indigo-pale); }
   .btn-ghost:hover { border-color: var(--indigo-mid); color: var(--indigo-mid); }
 
   #msg {
@@ -146,19 +224,10 @@
     margin-top: 0.75rem;
   }
 
-  #msg.success {
-    background: #eaf3f0;
-    color: #1a6a4a;
-    border: 1px solid #b0d9c8;
-  }
+  #msg.success { background: #eaf3f0; color: var(--success); border: 1px solid #b0d9c8; }
+  #msg.error { background: #fdf0ee; color: var(--danger); border: 1px solid #f0c0b8; }
 
-  #msg.error {
-    background: #fdf0ee;
-    color: var(--danger);
-    border: 1px solid #f0c0b8;
-  }
-
-  /* カード一覧 */
+  /* 一覧 */
   #card-list { display: flex; flex-direction: column; gap: 10px; }
 
   .list-item {
@@ -171,31 +240,25 @@
     background: var(--white);
   }
 
-  .list-num {
-    font-size: 10px;
-    color: var(--indigo-muted);
-    letter-spacing: 0.1em;
-    min-width: 20px;
+  .list-thumb {
+    width: 56px;
+    height: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+    background: var(--indigo-bg);
+    border: 1px solid var(--indigo-pale);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  .list-thumb img { width: 56px; height: 40px; object-fit: cover; border-radius: 4px; }
+
+  .list-num { font-size: 10px; color: var(--indigo-muted); letter-spacing: 0.1em; min-width: 20px; }
   .list-info { flex: 1; min-width: 0; }
-
-  .list-title {
-    font-size: 13px;
-    color: var(--indigo-deep);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .list-url {
-    font-size: 11px;
-    color: var(--indigo-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
+  .list-title { font-size: 13px; color: var(--indigo-deep); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .list-url { font-size: 11px; color: var(--indigo-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
   .del-btn {
     font-size: 11px;
@@ -221,12 +284,7 @@
     display: none;
   }
 
-  .loading {
-    font-size: 12px;
-    color: var(--indigo-muted);
-    text-align: center;
-    padding: 1rem;
-  }
+  .loading { font-size: 12px; color: var(--indigo-muted); text-align: center; padding: 1rem; }
 </style>
 </head>
 <body>
@@ -242,18 +300,41 @@
   <!-- 追加フォーム -->
   <div class="card">
     <p class="card-title">サービス・商品を追加</p>
+
     <div class="field">
       <label>サービス名 *</label>
       <input type="text" id="f-title" placeholder="例：Fundia Online">
     </div>
+
     <div class="field">
       <label>URL *</label>
       <input type="text" id="f-url" placeholder="https://example.com">
     </div>
+
     <div class="field">
       <label>説明文（任意）</label>
       <textarea id="f-desc" placeholder="サービスの簡単な説明を入力"></textarea>
     </div>
+
+    <div class="field">
+      <label>サムネイル画像（任意）</label>
+      <div class="upload-area" id="upload-area">
+        <input type="file" id="f-image" accept="image/*" onchange="onFileSelect(this)">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p class="upload-label">クリックまたはドラッグ＆ドロップ</p>
+        <p class="upload-hint">JPG / PNG / WebP（推奨サイズ：600×400px以上）</p>
+      </div>
+      <div id="preview-wrap">
+        <img id="preview-img" src="" alt="プレビュー">
+        <button id="remove-img" onclick="removeImage()">画像を削除</button>
+      </div>
+      <div id="upload-progress">Google Drive にアップロード中...</div>
+    </div>
+
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="clearForm()">クリア</button>
       <button class="btn btn-primary" id="add-btn" onclick="addCard()">追加する</button>
@@ -272,22 +353,121 @@
 
 <script>
   // ★ Google Apps Script のデプロイURLに置き換えてください
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgZTLy6dXwPAeg23kjW76cNVqPXRZ0KfVj6Lb_EpBj1yo5BSlw1QyTEGbUdeqb0OeYiw/exec';
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwb_PmPPwF6xJ6GLV3Uk3A0UC5qpCI_oMGr9LBKd1O-aA8MtIXP6lZUvyPf6xr25LzFrA/exec';
 
   let cards = [];
+  let selectedFile = null;
+
+  // ドラッグ&ドロップ
+  const uploadArea = document.getElementById('upload-area');
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) handleFile(file);
+  });
+
+  function onFileSelect(input) {
+    if (input.files[0]) handleFile(input.files[0]);
+  }
+
+  function handleFile(file) {
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('preview-img').src = e.target.result;
+      document.getElementById('preview-wrap').style.display = 'block';
+      document.getElementById('upload-area').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeImage() {
+    selectedFile = null;
+    document.getElementById('f-image').value = '';
+    document.getElementById('preview-wrap').style.display = 'none';
+    document.getElementById('upload-area').style.display = 'block';
+    document.getElementById('preview-img').src = '';
+  }
 
   function showMsg(text, type) {
     const el = document.getElementById('msg');
     el.textContent = text;
     el.className = type;
     el.style.display = 'block';
-    setTimeout(() => { el.style.display = 'none'; }, 4000);
+    setTimeout(() => { el.style.display = 'none'; }, 5000);
   }
 
   function clearForm() {
     document.getElementById('f-title').value = '';
     document.getElementById('f-url').value = '';
     document.getElementById('f-desc').value = '';
+    removeImage();
+  }
+
+  // 画像をBase64に変換してGASに送る
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function addCard() {
+    const title = document.getElementById('f-title').value.trim();
+    const url   = document.getElementById('f-url').value.trim();
+    const desc  = document.getElementById('f-desc').value.trim();
+
+    if (!title) { showMsg('サービス名を入力してください', 'error'); return; }
+    if (!url)   { showMsg('URLを入力してください', 'error'); return; }
+    try { new URL(url); } catch(e) { showMsg('正しいURLを入力してください', 'error'); return; }
+
+    const btn = document.getElementById('add-btn');
+    btn.disabled = true;
+
+    let imageBase64 = '';
+    let imageMime = '';
+
+    if (selectedFile) {
+      btn.textContent = '画像をアップロード中...';
+      document.getElementById('upload-progress').style.display = 'block';
+      imageBase64 = await fileToBase64(selectedFile);
+      imageMime = selectedFile.type;
+    }
+
+    btn.textContent = '送信中...';
+
+    try {
+      const res = await fetch(GAS_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'add',
+          title,
+          url,
+          description: desc,
+          imageBase64,
+          imageMime
+        })
+      });
+      const data = await res.json();
+      if (data.status === 'ok') {
+        showMsg('追加しました', 'success');
+        clearForm();
+        await loadCards();
+      } else {
+        showMsg('エラーが発生しました: ' + (data.message || ''), 'error');
+      }
+    } catch(e) {
+      showMsg('送信に失敗しました。GAS URLを確認してください。', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '追加する';
+      document.getElementById('upload-progress').style.display = 'none';
+    }
   }
 
   function renderList() {
@@ -303,7 +483,11 @@
     cards.forEach((card, i) => {
       const item = document.createElement('div');
       item.className = 'list-item';
+      const thumbHtml = card.imageUrl
+        ? `<div class="list-thumb"><img src="${card.imageUrl}" alt="${card.title}"></div>`
+        : `<div class="list-thumb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7a9abb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
       item.innerHTML = `
+        ${thumbHtml}
         <span class="list-num">${String(i+1).padStart(2,'0')}</span>
         <div class="list-info">
           <p class="list-title">${card.title}</p>
@@ -325,40 +509,6 @@
     }
   }
 
-  async function addCard() {
-    const title = document.getElementById('f-title').value.trim();
-    const url   = document.getElementById('f-url').value.trim();
-    const desc  = document.getElementById('f-desc').value.trim();
-
-    if (!title) { showMsg('サービス名を入力してください', 'error'); return; }
-    if (!url)   { showMsg('URLを入力してください', 'error'); return; }
-    try { new URL(url); } catch(e) { showMsg('正しいURLを入力してください', 'error'); return; }
-
-    const btn = document.getElementById('add-btn');
-    btn.disabled = true;
-    btn.textContent = '送信中...';
-
-    try {
-      const res = await fetch(GAS_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'add', title, url, description: desc })
-      });
-      const data = await res.json();
-      if (data.status === 'ok') {
-        showMsg('追加しました', 'success');
-        clearForm();
-        await loadCards();
-      } else {
-        showMsg('エラーが発生しました: ' + (data.message || ''), 'error');
-      }
-    } catch(e) {
-      showMsg('送信に失敗しました。GAS URLを確認してください。', 'error');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = '追加する';
-    }
-  }
-
   async function deleteCard(id) {
     if (!confirm('このカードを削除しますか？')) return;
     try {
@@ -367,11 +517,8 @@
         body: JSON.stringify({ action: 'delete', id })
       });
       const data = await res.json();
-      if (data.status === 'ok') {
-        await loadCards();
-      } else {
-        alert('削除に失敗しました');
-      }
+      if (data.status === 'ok') await loadCards();
+      else alert('削除に失敗しました');
     } catch(e) {
       alert('削除に失敗しました。GAS URLを確認してください。');
     }
